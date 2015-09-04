@@ -19,7 +19,7 @@ class YoutubeBot(irc.IRCClient):
     print 'Joined %s.' % (channel,)
 
   def privmsg(self, user, channel, msg):
-    youtube_urls = re.findall('http[s]?:\/\/(www\.?youtube\.com\/watch\?v=[a-zA-Z0-9_]*)+', msg)
+    youtube_urls = re.findall('http[s]?:\/\/(www\.youtube\.com\/watch\?v=[a-zA-Z0-9_\-]*)|(youtu\.be/[a-zA-Z0-9_\-]*)+', msg)
     response = []
 
     for url in youtube_urls:
@@ -38,5 +38,5 @@ class YoutubeBotFactory(protocol.ClientFactory):
     self.nickname = nickname
 
 if __name__ == '__main__':
-  reactor.connectTCP('irc.freenode.net', 6667, YoutubeBotFactory(sys.argv[1], 'ohmibod'))
+  reactor.connectTCP('irc.freenode.net', 6667, YoutubeBotFactory(sys.argv[2], sys.argv[1]))
   reactor.run()
